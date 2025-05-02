@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/authview_model_provider.dart';
-import 'package:todo_app/view/dashboard.dart';
-import 'package:todo_app/view/registeration_page.dart';
+import 'package:todo_app/view/dashboard_view.dart';
+import 'package:todo_app/view/registeration_page_view.dart';
 import 'package:todo_app/widgets/app_button.dart';
 import 'package:todo_app/widgets/app_textfield.dart';
 import 'package:todo_app/widgets/ui_extensions.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginPageView extends StatelessWidget {
+  const LoginPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +117,8 @@ class LoginPage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder:
-                                              (context) => RegisterationPage(),
+                                              (context) =>
+                                                  RegisterationPageView(),
                                         ),
                                       );
                                     },

@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/todo_model_provider.dart';
 import 'package:todo_app/widgets/new_todo_card.dart';
 
-class CompletedPage extends StatelessWidget {
-  const CompletedPage({super.key});
+class CompletedPageView extends StatelessWidget {
+  const CompletedPageView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,11 +3,11 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/dashboard_provider.dart';
 import 'package:todo_app/business_logic/todo_model_provider.dart';
-import 'package:todo_app/view/completed_page.dart';
+import 'package:todo_app/view/completed_page_view.dart';
 import 'package:todo_app/view/create_todo.dart';
 import 'package:todo_app/view/home_view.dart';
-import 'package:todo_app/view/settings.dart';
-import 'package:todo_app/view/shared_page.dart';
+import 'package:todo_app/view/settings_view.dart';
+import 'package:todo_app/view/shared_page_view.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -41,9 +41,9 @@ class _DashboardViewState extends State<DashboardView> {
     final List<Widget> pages = [
       HomeView(),
       // PinnedPage(),
-      CompletedPage(),
-      SharedPage(),
-      Settings(),
+      CompletedPageView(),
+      SharedPageView(),
+      SettingsView(),
     ];
     return Scaffold(
       body: pages[dashboardProvider.currentIndex],

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/authview_model_provider.dart';
 import 'package:todo_app/business_logic/dashboard_provider.dart';
-import 'package:todo_app/view/login_page.dart';
+import 'package:todo_app/view/login_page_view.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({super.key});
+class SettingsView extends StatelessWidget {
+  const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,12 @@ class Settings extends StatelessWidget {
                 'Settings',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
-              
+              SizedBox(height: 30),
+              Text(
+                'Your Email: ${authVM.emailController.text}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
               ListTile(
                 title: Text('Logout'),
                 trailing: Icon(Icons.logout, color: Colors.red),
@@ -33,7 +37,7 @@ class Settings extends StatelessWidget {
                   authVM.logout();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    MaterialPageRoute(builder: (context) => LoginPageView()),
                   );
                 },
               ),

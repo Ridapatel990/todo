@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/todo_model_provider.dart';
 import 'package:todo_app/widgets/new_todo_card.dart';
 
-class SharedPage extends StatefulWidget {
-  const SharedPage({super.key});
+class SharedPageView extends StatefulWidget {
+  const SharedPageView({super.key});
 
   @override
-  State<SharedPage> createState() => _SharedPageState();
+  State<SharedPageView> createState() => _SharedPageViewState();
 }
 
-class _SharedPageState extends State<SharedPage> {
+class _SharedPageViewState extends State<SharedPageView> {
   @override
   void initState() {
     super.initState();

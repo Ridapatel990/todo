@@ -2,13 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/authview_model_provider.dart';
-import 'package:todo_app/view/dashboard.dart';
-import 'package:todo_app/view/login_page.dart';
+import 'package:todo_app/view/dashboard_view.dart';
+import 'package:todo_app/view/login_page_view.dart';
 import 'package:todo_app/widgets/app_button.dart';
 import 'package:todo_app/widgets/app_textfield.dart';
 
-class RegisterationPage extends StatelessWidget {
-  const RegisterationPage({super.key});
+class RegisterationPageView extends StatelessWidget {
+  const RegisterationPageView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class RegisterationPage extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => LoginPage(),
+                                          builder: (context) => LoginPageView(),
                                         ),
                                       );
                                     },

@@ -11,7 +11,6 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('My Todos')),
       body: SafeArea(
-        // ✅ Always wrap main body in SafeArea
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

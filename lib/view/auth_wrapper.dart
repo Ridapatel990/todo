@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/view/dashboard.dart';
-import 'package:todo_app/view/login_page.dart';
+import 'package:todo_app/view/dashboard_view.dart';
+import 'package:todo_app/view/login_page_view.dart';
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
@@ -19,7 +19,7 @@ class AuthWrapper extends StatelessWidget {
           return const DashboardView();
         }
 
-        return const LoginPage();
+        return const LoginPageView();
       },
     );
   }
