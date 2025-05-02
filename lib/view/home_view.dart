@@ -43,9 +43,7 @@ class HomeView extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your createTodo function call or open add todo page
-        },
+        onPressed: () {},
         child: const Icon(Icons.add),
       ),
     );

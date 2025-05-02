@@ -74,7 +74,7 @@ class RegisterationPageView extends StatelessWidget {
                               authVM.emailController.text.trim(),
                               authVM.passwordController.text.trim(),
                             );
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DashboardView(),
