@@ -6,7 +6,6 @@ import 'package:todo_app/business_logic/todo_model_provider.dart';
 import 'package:todo_app/view/completed_page.dart';
 import 'package:todo_app/view/create_todo.dart';
 import 'package:todo_app/view/home_view.dart';
-import 'package:todo_app/view/pinned_page.dart';
 import 'package:todo_app/view/settings.dart';
 import 'package:todo_app/view/shared_page.dart';
 
@@ -33,7 +32,7 @@ class _DashboardViewState extends State<DashboardView> {
     final theme = Theme.of(context);
     const destinations = [
       NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-      NavigationDestination(icon: Icon(Icons.push_pin), label: 'Pinned'),
+      // NavigationDestination(icon: Icon(Icons.push_pin), label: 'Pinned'),
       NavigationDestination(icon: Icon(Icons.done_all), label: 'Completed'),
       NavigationDestination(icon: Icon(IconsaxPlusBold.share), label: 'Shared'),
       NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
@@ -41,7 +40,7 @@ class _DashboardViewState extends State<DashboardView> {
 
     final List<Widget> pages = [
       HomeView(),
-      PinnedPage(),
+      // PinnedPage(),
       CompletedPage(),
       SharedPage(),
       Settings(),

@@ -220,66 +220,60 @@ class TodoModelView with ChangeNotifier {
 
   // Sharing a todo with another user
 
-  Future<void> shareTodo({
-    required String todoId,
-    required String email,
-  }) async {
+  Future<void> shareTodo(String todoId, List<String> sharedUsers) async {
+    log('message******: $todoId');
+    log('message****************: $sharedUsers');
     try {
-      final todoRef = FirebaseFirestore.instance
-          .collection('todos')
-          .doc(todoId);
-
-      await FirebaseFirestore.instance.runTransaction((transaction) async {
-        final snapshot = await transaction.get(todoRef);
-        if (!snapshot.exists) {
-          log('Todo with id $todoId does not exist.');
-          return;
-        }
-
-        final currentSharedWith = List<String>.from(
-          snapshot['sharedWith'] ?? [],
-        );
-
-        if (currentSharedWith.contains(email)) {
-          log('Todo already shared with $email');
-          return;
-        }
-
-        currentSharedWith.add(email);
-        transaction.update(todoRef, {'sharedWith': currentSharedWith});
-        log('Updated sharedWith: $currentSharedWith');
+      FirebaseFirestore.instance.collection('todos').doc(todoId).update({
+        'sharedWith': FieldValue.arrayUnion(sharedUsers),
       });
 
-      final todo = _todos.firstWhere((element) => element.id == todoId);
-      todo.sharedWith.add(email);
       notifyListeners();
     } catch (e) {
       log('Error sharing todo: $e');
     }
   }
 
-  // Future<void> fetchSharedTodos() async {
-  //   try {
-  //     final userEmail = FirebaseAuth.instance.currentUser?.email;
+  Future<void> fetchSharedTodos() async {
+    try {
+      final userEmail = FirebaseAuth.instance.currentUser?.email;
 
-  //     final querySnapshot =
-  //         await FirebaseFirestore.instance.collection('todos').get();
+      final querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('todos')
+              .where('sharedWith', arrayContains: userEmail)
+              .get();
 
-  //     log('Current user: $userEmail');
-  //     log('Fetched ${querySnapshot.docs.length} shared todos');
+      log('Current user: $userEmail');
+      log('Fetched ${querySnapshot.docs.length} shared todos');
 
-  //     for (var doc in querySnapshot.docs) {
-  //       final data = TodoModel.fromMap(doc.data());
-  //       if (!_todos.any((t) => t.id == data.id)) {
-  //         _todos.add(data);
-  //       }
-  //     }
+      for (var doc in querySnapshot.docs) {
+        final data = TodoModel.fromMap(doc.data());
+        if (!_todos.any((t) => t.id == data.id)) {
+          _todos.add(data);
+        }
+      }
 
-  //     notifyListeners();
-  //   } catch (e) {
-  //     log('Error fetching shared todos: $e');
-  //   }
-  // }
+      notifyListeners();
+    } catch (e) {
+      log('Error fetching shared todos: $e');
+    }
+  }
+
+  Future<void> deleteSharedTodo(String todoId) async {
+    try {
+      final userEmail = FirebaseAuth.instance.currentUser?.email;
+
+      await FirebaseFirestore.instance.collection('todos').doc(todoId).update({
+        'sharedWith': FieldValue.arrayRemove([userEmail]),
+      });
+
+      _todos.removeWhere((todo) => todo.id == todoId);
+      notifyListeners();
+    } catch (e) {
+      log('Error deleting shared todo: $e');
+    }
+  }
 
   // Future<void> shareTodoWithUsers({
   //   required String todoId,

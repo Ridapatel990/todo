@@ -24,6 +24,7 @@ class Settings extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
+              
               ListTile(
                 title: Text('Logout'),
                 trailing: Icon(Icons.logout, color: Colors.red),

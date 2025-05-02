@@ -14,9 +14,9 @@ class _SharedPageState extends State<SharedPage> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   Provider.of<TodoModelView>(context, listen: false).fetchSharedTodos();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<TodoModelView>(context, listen: false).fetchSharedTodos();
+    });
   }
 
   @override
@@ -52,7 +52,47 @@ class _SharedPageState extends State<SharedPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(todo.title, style: theme.textTheme.titleMedium),
+                          Row(
+                            children: [
+                              Text(
+                                todo.title,
+                                style: theme.textTheme.titleMedium,
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: const Text('Delete Todo'),
+                                        content: const Text(
+                                          'Are you sure you want to delete this todo?',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              todoVM.deleteSharedTodo(todo.id);
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('Delete'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                          // Text(todo.title, style: theme.textTheme.titleMedium),
                           const SizedBox(height: 8),
                           Text("Owner email: ${todo.userEmail}"),
                           Text("Shared with: ${todo.sharedWith.join(', ')}"),

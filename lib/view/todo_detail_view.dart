@@ -110,6 +110,16 @@ ${todoModel.subTasks.map((e) => '- ${e.title} ${e.isCompleted ? "(Completed)" : 
                               }
 
                               Navigator.pop(context);
+
+                              await todoVM.shareTodo(
+                                todoModel.id,
+                                emailsToShare,
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Todo shared successfully!'),
+                                ),
+                              );
                             },
                             child: const Text('Share'),
                           ),
@@ -118,30 +128,7 @@ ${todoModel.subTasks.map((e) => '- ${e.title} ${e.isCompleted ? "(Completed)" : 
                     },
                   );
                 },
-              ).then((result) async {
-                if (result == null || result.isEmpty) return;
-
-                await todoVM.shareTodo(
-                  todoId: todoModel.id,
-                  email: 'todoModel.userEmail',
-                );
-
-                // final List<String> selectedEmails = List<String>.from(result);
-
-                // final sharedUsers =
-                //     selectedEmails.map((email) {
-                //       return SharedModel(
-                //         sharedWith: email,
-                //         sharedBy: todoVM.currentUserEmail,
-                //         accessRights: AccessRights.view,
-                //       );
-                //     }).toList();
-
-                // await Provider.of<TodoModelView>(context).shareTodoWithUsers(
-                //   todoId: todoModel.id,
-                //   sharedUsers: sharedUsers,
-                // );
-              });
+              );
             },
           ),
         ],
