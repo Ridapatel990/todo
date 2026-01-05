@@ -1,8 +1,10 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/authview_model_provider.dart';
+import 'package:todo_app/utils/all_snackbars.dart';
 import 'package:todo_app/view/dashboard_view.dart';
 import 'package:todo_app/view/registeration_page_view.dart';
 import 'package:todo_app/widgets/app_button.dart';
@@ -71,9 +73,15 @@ class LoginPageView extends StatelessWidget {
                                 authVM.passwordController.text.trim(),
                               );
                               if (authVM.user.hasError) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Failed to login')),
+                                AllSnackbars.showSnackBar(
+                                  context: context,
+                                  title: 'Failed',
+                                  message: 'Failed to login',
+                                  contentType: ContentType.failure,
                                 );
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   SnackBar(content: Text('Failed to login')),
+                                // );
                               } else {
                                 Navigator.pushReplacement(
                                   context,

@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/models/todo_model.dart';
+import 'package:todo_app/utils/all_snackbars.dart';
 import 'package:uuid/uuid.dart';
 
 class TodoModelView with ChangeNotifier {
@@ -17,7 +19,8 @@ class TodoModelView with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteTodo(String id) {
+  Future<void> deleteTodo(String id) async {
+    await FirebaseFirestore.instance.collection('todos').doc(id).delete();
     _todos.removeWhere((todo) => todo.id == id);
     notifyListeners();
   }
@@ -128,8 +131,11 @@ class TodoModelView with ChangeNotifier {
 
       addTodo(TodoModel.fromMap(todoModel.toMap()));
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Todo created successfully')),
+      AllSnackbars.showSnackBar(
+        context: context,
+        title: 'Success',
+        message: "Todo '${todoModel.title}' created successfully",
+        contentType: ContentType.success,
       );
 
       Navigator.pop(context);
@@ -244,9 +250,6 @@ class TodoModelView with ChangeNotifier {
               .where('sharedWith', arrayContains: userEmail)
               .get();
 
-      log('Current user: $userEmail');
-      log('Fetched ${querySnapshot.docs.length} shared todos');
-
       for (var doc in querySnapshot.docs) {
         final data = TodoModel.fromMap(doc.data());
         if (!_todos.any((t) => t.id == data.id)) {
@@ -274,99 +277,4 @@ class TodoModelView with ChangeNotifier {
       log('Error deleting shared todo: $e');
     }
   }
-
-  // Future<void> shareTodoWithUsers({
-  //   required String todoId,
-  //   required List<SharedModel> sharedUsers,
-  // }) async {
-  //   try {
-  //     final todoRef = FirebaseFirestore.instance
-  //         .collection('todos')
-  //         .doc(todoId);
-
-  //     await FirebaseFirestore.instance.runTransaction((transaction) async {
-  //       final snapshot = await transaction.get(todoRef);
-  //       if (!snapshot.exists) {
-  //         log('Todo with id $todoId does not exist.');
-  //         return;
-  //       }
-
-  //       final currentSharedWith = List<Map<String, dynamic>>.from(
-  //         snapshot['sharedWith'] ?? [],
-  //       );
-
-  //       final updatedSharedWith = [
-  //         ...currentSharedWith,
-  //         ...sharedUsers.map((user) => user.toMap()),
-  //       ];
-
-  //       transaction.update(todoRef, {'sharedWith': updatedSharedWith});
-  //       log('Updated sharedWith: $updatedSharedWith');
-  //     });
-
-  //     final todo = _todos.firstWhere((element) => element.id == todoId);
-  //     todo.sharedWith = [
-  //       ...todo.sharedWith,
-  //       ...sharedUsers.map((user) => user.sharedBy),
-  //     ];
-  //     notifyListeners();
-  //   } catch (e) {
-  //     log('Error sharing todo with multiple users: $e');
-  //   }
-  // }
-
-  // Future<void> fetchSharedTodos() async {
-  //   try {
-  //     final userEmail = FirebaseAuth.instance.currentUser?.email;
-
-  //     if (userEmail == null) return;
-
-  //     final querySnapshot =
-  //         await FirebaseFirestore.instance
-  //             .collection('todos')
-  //             .where(
-  //               'sharedWith',
-  //               arrayContains: userEmail,
-  //             ) // Query todos shared with the current user
-  //             .get();
-
-  //     log('Current user: $userEmail');
-  //     log('Fetched ${querySnapshot.docs.length} todos');
-
-  //     for (var doc in querySnapshot.docs) {
-  //       final data = SharedModel.fromMap(doc.data());
-  //       log('data.toString()********: ${data.toString()}');
-  //       // final data = doc.data();
-  //       // final todo = TodoModel(
-  //       //   id: doc.id,
-  //       //   title: data['title'],
-  //       //   description: data['description'],
-  //       //   createdAt: (data['createdAt'] as Timestamp).toDate(),
-  //       //   dueDate: (data['dueDate'] as Timestamp).toDate(),
-  //       //   isCompleted: data['isCompleted'],
-  //       //   userEmail: data['userEmail'],
-  //       //   sharedWith: List<String>.from(data['sharedWith'] ?? []),
-  //       //   subTasks:
-  //       //       (data['subTasks'] as List<dynamic>)
-  //       //           .map(
-  //       //             (e) => SubTask(
-  //       //               title: e['title'],
-  //       //               isCompleted: e['isCompleted'],
-  //       //               createdAt: (e['createdAt'] as Timestamp).toDate(),
-  //       //             ),
-  //       //           )
-  //       //           .toList(),
-  //       // );
-  //       // if (!_todos.any((t) => t.id == todo.id)) {
-  //       //   _todos.add(
-  //       //     todo,
-  //       //   ); // Add shared todo to the local list if not already present
-  //       // }
-  //     }
-
-  //     notifyListeners();
-  //   } catch (e) {
-  //     log('Error fetching shared todos: $e');
-  //   }
-  // }
 }

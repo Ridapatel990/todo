@@ -1,8 +1,10 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/todo_model_provider.dart';
 import 'package:todo_app/models/todo_model.dart';
+import 'package:todo_app/utils/all_snackbars.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TodoDetailView extends StatelessWidget {
@@ -16,7 +18,10 @@ class TodoDetailView extends StatelessWidget {
     final todoVM = Provider.of<TodoModelView>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text(todoModel.title),
+        title: Text(
+          todoModel.title,
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.share),
@@ -102,10 +107,11 @@ ${todoModel.subTasks.map((e) => '- ${e.title} ${e.isCompleted ? "(Completed)" : 
                               if (await canLaunchUrl(mailUrl)) {
                                 await launchUrl(mailUrl);
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Could not launch email app'),
-                                  ),
+                                AllSnackbars.showSnackBar(
+                                  context: context,
+                                  title: 'Oh Hey!',
+                                  message: 'Could not launch email app',
+                                  contentType: ContentType.failure,
                                 );
                               }
 
@@ -115,10 +121,12 @@ ${todoModel.subTasks.map((e) => '- ${e.title} ${e.isCompleted ? "(Completed)" : 
                                 todoModel.id,
                                 emailsToShare,
                               );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Todo shared successfully!'),
-                                ),
+
+                              AllSnackbars.showSnackBar(
+                                context: context,
+                                title: 'Todo Shared',
+                                message: 'Todo shared successfully!',
+                                contentType: ContentType.success,
                               );
                             },
                             child: const Text('Share'),
@@ -138,6 +146,12 @@ ${todoModel.subTasks.map((e) => '- ${e.title} ${e.isCompleted ? "(Completed)" : 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ListTile(
+            //   title: Text(todoModel.title, style: theme.textTheme.titleMedium),
+            //   leading: Text('Title:', style: theme.textTheme.titleMedium),
+            //   style: ListTileStyle.list,
+            // ),
+            const SizedBox(height: 16),
             Text('Description:', style: theme.textTheme.titleMedium),
             const SizedBox(height: 4),
             Text(todoModel.description),

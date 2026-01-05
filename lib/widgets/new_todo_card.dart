@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/todo_model_provider.dart';
 import 'package:todo_app/models/todo_model.dart';
+import 'package:todo_app/utils/all_snackbars.dart';
 import 'package:todo_app/view/todo_detail_view.dart';
 
 class NewTodoCard extends StatelessWidget {
@@ -60,12 +62,19 @@ class NewTodoCard extends StatelessWidget {
                         onPressed: () {
                           todoVM.deleteTodo(todoModel.id);
                           Navigator.of(context).pop(true);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Todo ${todoModel.title} deleted'),
-                              backgroundColor: Colors.red,
-                            ),
+                          AllSnackbars.showSnackBar(
+                            context: context,
+                            title: 'Deleted',
+                            message:
+                                'Todo \'${todoModel.title}\' deleted successfully',
+                            contentType: ContentType.failure,
                           );
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(
+                          //     content: Text('Todo ${todoModel.title} deleted'),
+                          //     backgroundColor: Colors.red,
+                          //   ),
+                          // );
                         },
                         child: Text(
                           'Delete',
@@ -77,12 +86,18 @@ class NewTodoCard extends StatelessWidget {
             ),
         onDismissed: (direction) {
           todoVM.deleteTodo(todoModel.id);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Todo ${todoModel.title} deleted'),
-              backgroundColor: Colors.red,
-            ),
+          AllSnackbars.showSnackBar(
+            context: context,
+            title: 'Deleted',
+            message: 'Todo \'${todoModel.title}\' deleted successfully',
+            contentType: ContentType.failure,
           );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text('Todo ${todoModel.title} deleted'),
+          //     backgroundColor: Colors.red,
+          //   ),
+          // );
         },
         child: Material(
           elevation: 1,

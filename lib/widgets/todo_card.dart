@@ -82,6 +82,12 @@ class TodoCard extends StatelessWidget {
             },
             onDismissed: (direction) {
               todoVM.deleteTodo(todoModel.id);
+              // AllSnackbars.showSnackBar(
+              //   context: context,
+              //   title: 'Todo Deleted',
+              //   message: 'Todo ${todoModel.title} deleted',
+              //   contentType: ContentType.failure,
+              // );
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(

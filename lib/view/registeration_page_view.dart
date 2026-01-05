@@ -1,7 +1,9 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/business_logic/authview_model_provider.dart';
+import 'package:todo_app/utils/all_snackbars.dart';
 import 'package:todo_app/view/dashboard_view.dart';
 import 'package:todo_app/view/login_page_view.dart';
 import 'package:todo_app/widgets/app_button.dart';
@@ -65,8 +67,14 @@ class RegisterationPageView extends StatelessWidget {
                           if (authVM.nameController.text.isEmpty ||
                               authVM.emailController.text.isEmpty ||
                               authVM.passwordController.text.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Plaese fill all fields')),
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(content: Text('Plaese fill all fields')),
+                            // );
+                            AllSnackbars.showSnackBar(
+                              context: context,
+                              title: 'Warning',
+                              message: 'Please fill all fields',
+                              contentType: ContentType.warning,
                             );
                           } else {
                             authVM.register(
